@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if username %}
+<div class="card">
+    <h2 class="card-title">欢迎回来，{{ username }}！</h2>
+
+    <ul class="user-info-list">
+        <li><strong>用户名：</strong>{{ user.username }}</li>
+        <li><strong>密码：</strong>{{ user.password }}</li>
+        <li><strong>邮箱：</strong>{{ user.email }}</li>
+        <li><strong>手机：</strong>{{ user.phone }}</li>
+        <li><strong>角色：</strong>{{ user.role }}</li>
+        <li><strong>余额：</strong>{{ user.balance }}</li>
+    </ul>
+
+    <a class="btn" href="/logout">退出登录</a>
+</div>
+{% else %}
+<div class="card">
+    <h2 class="card-title">请先登录</h2>
+    <p class="info-text">您还未登录，请点击下方按钮前往登录页面。</p>
+    <a class="btn" href="/login">前往登录</a>
+</div>
+{% endif %}
+
+{% endblock %}
