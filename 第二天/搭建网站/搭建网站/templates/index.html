@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+{% if user %}
+<div class="card welcome-card">
+    <div class="welcome-header">
+        <div class="welcome-avatar">{{ user.username[0] | upper }}</div>
+        <h2>欢迎回来，{{ user.username }}！</h2>
+    </div>
+    <ul class="user-info-list">
+        <li>
+            <span class="info-label">用户名</span>
+            <span class="info-value">{{ user.username }}</span>
+        </li>
+        <li>
+            <span class="info-label">邮箱</span>
+            <span class="info-value">{{ user.email }}</span>
+        </li>
+        <li>
+            <span class="info-label">手机</span>
+            <span class="info-value">{{ user.phone }}</span>
+        </li>
+        <li>
+            <span class="info-label">角色</span>
+            <span class="info-value role {% if user.role == 'admin' %}role-admin{% else %}role-user{% endif %}">{{ user.role }}</span>
+        </li>
+        <li>
+            <span class="info-label">余额</span>
+            <span class="info-value balance">¥ {{ user.balance }}</span>
+        </li>
+    </ul>
+    <a href="/logout" class="btn btn-logout">退出登录</a>
+</div>
+{% else %}
+<div class="card guest-card">
+    <div class="icon-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+        </svg>
+    </div>
+    <h2>请先登录</h2>
+    <p>您还未登录，请点击下方按钮进入系统</p>
+    <a href="/login" class="btn">前往登录</a>
+</div>
+{% endif %}
+{% endblock %}
