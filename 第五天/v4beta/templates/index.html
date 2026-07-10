@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if username %}
+{# 功能3：根据系统时间显示问候语 #}
+<h3 class="greeting">{{ greeting }}，{{ username }}！</h3>
+
+<div class="card">
+    <h2 class="card-title">欢迎回来，{{ username }}！</h2>
+
+    <ul class="user-info-list">
+        <li><strong>UID：</strong>{{ user.uid }}</li>
+        <li><strong>用户名：</strong>{{ user.username }}</li>
+        <li><strong>邮箱：</strong>{{ user.email }}</li>
+        <li><strong>手机：</strong>{{ user.phone }}</li>
+        <li><strong>角色：</strong>{{ user.role }}</li>
+        <li><strong>余额：</strong>{{ user.balance }}</li>
+    </ul>
+
+    <div class="action-buttons">
+        <a class="btn" href="{{ url_for('profile') }}">个人中心</a>
+        <a class="btn btn-secondary" href="{{ url_for('upload_avatar') }}">上传头像</a>
+        <form method="POST" action="{{ url_for('logout') }}" style="display:inline">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <button type="submit" class="btn btn-secondary">退出登录</button>
+        </form>
+    </div>
+</div>
+
+{# ======== 用户搜索功能 ======== #}
+<div class="card">
+    <h2 class="card-title">用户搜索</h2>
+    <form method="GET" action="{{ url_for('search') }}">
+        <div class="form-group">
+            <input class="form-input" type="text" name="keyword"
+                   placeholder="输入用户名或邮箱关键字搜索"
+                   value="{{ keyword }}" maxlength="100">
+        </div>
+        <button class="btn" type="submit">搜索</button>
+    </form>
+
+    {% if search_performed %}
+    <div class="search-results">
+        {% if search_results %}
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>UID</th>
+                    <th>用户名</th>
+                    <th>邮箱</th>
+                    <th>手机</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in search_results %}
+                <tr>
+                    <td>{{ row.uid }}</td>
+                    <td>{{ row.username }}</td>
+                    <td>{{ row.email }}</td>
+                    <td>{{ row.phone }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="info-text" style="text-align: center;">无搜索结果</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+{% else %}
+{# ======== 未登录 ======== #}
+<div class="card">
+    <h2 class="card-title">请先登录</h2>
+    <p class="info-text">您还未登录，请点击下方按钮前往登录页面。</p>
+    <a class="btn" href="{{ url_for('login') }}">前往登录</a>
+</div>
+{% endif %}
+
+{% endblock %}
